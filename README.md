@@ -2,7 +2,7 @@
 
 Demo project of 
 * Spring State Machine
-* Persist recipes
+* Persist recipes to update state
 
 State:
     

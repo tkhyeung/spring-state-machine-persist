@@ -2,6 +2,7 @@ package com.example.sm.state_machine;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.StateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
@@ -34,6 +35,8 @@ public class FormStateMachineConfig extends StateMachineConfigurerAdapter<String
                 .source(FormStates.INIT.name())
                 .target(FormStates.SUBMITTED.name())
                 .event(FormEvents.SUBMIT.name())
+                .action(this::action1, this::error)
+                .guard(this::evaluate)
                 .and()
                 .withExternal()
                 .source(FormStates.SUBMITTED.name())
@@ -46,6 +49,20 @@ public class FormStateMachineConfig extends StateMachineConfigurerAdapter<String
                 .event(FormEvents.APPROVE.name())
         ;
 
+    }
+
+    private boolean evaluate(StateContext<String, String> stringStringStateContext) {
+        log.info("evaluate");
+        return false;
+    }
+
+    private void error(StateContext<String, String> stringStringStateContext) {
+        log.info("error");
+    }
+
+    private void action1(StateContext<String, String> stringStringStateContext) {
+        log.info(stringStringStateContext + "");
+        log.info("action1");
     }
 
     @Override
